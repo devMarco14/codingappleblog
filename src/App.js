@@ -8,46 +8,55 @@ function App() {
     "강남 우동 맛집",
     "파이썬독학",
   ]);
-  let [따봉, 따봉변경] = useState(0);
+  let [따봉, 따봉변경] = useState([0, 0, 0]);
+  let [modal, setModal] = useState(true);
+  let [title, setTitle] = useState(0);
 
   return (
     <div className="App">
       <div className="black-nav">
         <h4>ReactBlog</h4>
       </div>
-      <div className="list">
-        <h4>
-          {글제목[0]}
-          <span
-            onClick={() => {
-              따봉변경(따봉 + 1);
-            }}
-          >
-            👍
-          </span>{" "}
-          {따봉}
-        </h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className="list">
-        <h4>{글제목[1]}</h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className="list">
-        <h4>{글제목[2]}</h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <Modal />
+
+      {글제목.map(function (a, i) {
+        return (
+          <div className="list" key={i}>
+            <h4
+              onClick={() => {
+                setModal(!modal);
+                setTitle(i);
+              }}
+            >
+              {글제목[i]}
+              <span
+                onClick={() => {
+                  let copy = [...따봉];
+                  copy[i] = copy[i] + 1;
+                  따봉변경(copy);
+                }}
+              >
+                👍
+                {따봉[i]}
+              </span>
+            </h4>
+            <p>2월 17일 발행</p>
+          </div>
+        );
+      })}
+      {modal === true ? (
+        <Modal 글제목={글제목} 글제목변경={글제목변경} title={title} />
+      ) : null}
     </div>
   );
 }
 
-function Modal() {
+function Modal({ title, 글제목, 글제목변경 }) {
   return (
     <div className="modal">
-      <h4>제목</h4>
+      <h4>{글제목[title]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
+      <button onClick={() => {}}>글수정</button>
     </div>
   );
 }
