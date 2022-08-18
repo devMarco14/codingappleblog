@@ -12,6 +12,9 @@ function App() {
   let [modal, setModal] = useState(false);
   let [title, setTitle] = useState(0);
   let [입력값, 입력값변경] = useState("");
+  let date = new Date();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
 
   return (
     <div className="App">
@@ -41,12 +44,17 @@ function App() {
                 {따봉[i]}
               </span>
             </h4>
-            <p>2월 17일 발행</p>
+            <p>
+              {month}월 {day}일 발행
+            </p>
             <button
               onClick={() => {
                 let copy = [...글제목];
                 copy.splice(i, 1);
                 글제목변경(copy);
+                let copy2 = [...따봉];
+                copy2.splice(i, 1);
+                따봉변경(copy2);
               }}
             >
               삭제
@@ -61,10 +69,14 @@ function App() {
         }}
       />
       <button
+        disabled={입력값 === ""}
         onClick={() => {
           let copy = [...글제목];
           copy.unshift(입력값);
           글제목변경(copy);
+          let copy2 = [...따봉];
+          copy2.unshift(0);
+          따봉변경(copy2);
         }}
       >
         글발행
